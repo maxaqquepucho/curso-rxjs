@@ -1,15 +1,35 @@
-import { range, fromEvent } from "rxjs";
-import { map } from 'rxjs/operators'
+import { range, from } from "rxjs";
+import {  filter } from 'rxjs/operators'
 
-// range(1,5).pipe(
-//     map<number, string>( val => ( val * 3 ).toString() )
+// range(40,10).pipe(
+//     filter( val => val % 2 === 1  )
 // ).subscribe( console.log )
 
+interface Personaje {
+    tipo: string;
+    nombre: string;
+}
 
-const keyUp$ = fromEvent<KeyboardEvent>( document, 'keyup' );
+const personajes: Personaje[] = [
+    {
+        tipo: 'heroe',
+        nombre: 'Batman'
+    },
+    {
+        tipo: 'heroe',
+        nombre: 'Robin'
+    },
+    {
+        tipo: 'villano',
+        nombre: 'Joker'
+    },
+]
 
-const keyupCode$ = keyUp$.pipe(
-    map( event => event.code )
-)
+const sub1$ = from(personajes)
+                .pipe(
+                    filter( p => p.tipo !== 'heroe' )
+                )
 
-keyupCode$.subscribe( code => console.log('map', code) )
+
+
+sub1$.subscribe( val => console.log(val) )
