@@ -1,51 +1,85 @@
-import { of, pipe, from } from "rxjs";
-import { distinct } from "rxjs/operators";
+import { from } from "rxjs";
+import { distinctUntilChanged, distinctUntilKeyChanged } from "rxjs/operators";
 
-
-const numbers$ = of(1,1,1,3,3,2,2,2,4,4,5,3,1)
-
-numbers$
-.pipe(
-    distinct()
-)
-.subscribe({
-    next: val => console.log('next', val),
-    complete: () => console.log('completed')
-})
 
 interface Personaje {
     nombre: String;
+    item: {
+        text: String;
+    };
 }
 
 const personajes: Personaje[] = [
     {
-        nombre: 'Megaman'
+        nombre: 'Megaman',
+        item: {
+            text: 'texto 1'
+        }
     },
     {
-        nombre: 'Aquaman'
+        nombre: 'Aquaman',
+        item: {
+            text: 'texto 1'
+        }
     },
     {
-        nombre: 'Megaman'
+        nombre: 'Megaman',
+        item: {
+            text: 'texto 2'
+        }
     },
     {
-        nombre: 'Sonic'
+        nombre: 'Sonic',
+        item: {
+            text: 'texto 3'
+        }
     },
     {
-        nombre: 'spiderMan'
+        nombre: 'Sonic',
+        item: {
+            text: 'texto 4'
+        }
     },
     {
-        nombre: 'Megaman'
+        nombre: 'spiderMan',
+        item: {
+            text: 'texto 4'
+        }
     },
     {
-        nombre: 'Arrow'
+        nombre: 'Megaman',
+        item: {
+            text: 'texto 5'
+        }
     },
     {
-        nombre: 'Megaman'
+        nombre: 'Arrow',
+        item: {
+            text: 'texto 5'
+        }
+    },
+    {
+        nombre: 'Arrow',
+        item: {
+            text: 'texto 1'
+        }
+    },
+    {
+        nombre: 'Arrow',
+        item: {
+            text: 'texto 6'
+        }
+    },
+    {
+        nombre: 'Megaman',
+        item: {
+            text: 'texto 1'
+        }
     },
 ]
 
 from(personajes)
 .pipe(
-    distinct(p => p.nombre)
+    distinctUntilKeyChanged('nombre')
 )
 .subscribe(console.log)
